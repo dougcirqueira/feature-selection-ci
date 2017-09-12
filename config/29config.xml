@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+
+	<problem>prisoner</problem>
+
+	<prisonerSettings>
+		<fitnessType>individual</fitnessType>
+		<!-- 1 (One individual) | 10 (10% of population) | 30 (30% of population) -->
+		<comparisonSize>30</comparisonSize>
+		<!-- Activate Bonus -->
+		<bonus>True</bonus>
+		<!-- Size of cooperation sequence (Number of "C" in an individual fenotype.) -->
+		<cooperationSize>5</cooperationSize>
+		<!-- Minimum Bonus -->
+		<bonusMin>0</bonusMin>
+		<!-- Maximum Bonus -->
+		<bonusMax>25</bonusMax>
+		<!-- Fitness Table File -->
+		<fitnessTableFile>prisonerFitnessTable.csv</fitnessTableFile>
+	</prisonerSettings>	
+
+	<solution>
+		<value>52.547, 72.154, 53.694, 57.771, 115.88, 105.59, 75.368, 126.02, 52.756, 85.1, 80.525,
+	111.24, 113.62, 64.95, 89.181, 85.647, 101.71, 106.75, 110.37, 72.082, 104.38, 102.41, 63.009, 59.52, 89.869,
+	126.78, 77.231, 96.821, 67.905, 110.1</value>
+	</solution>
+
+	<general>
+		<executions>5</executions>
+
+		<populationNumber>50</populationNumber>
+
+		<individual>PrisonerIndividual</individual>
+		
+		<evaluator>PrisonerEvaluator</evaluator>
+		
+		<indiviualSize>30</indiviualSize>
+		
+		<selectionFactor>0.1</selectionFactor>
+		
+		<stopCriterea>convergence</stopCriterea>
+		
+		<iterations>15000</iterations>
+
+		<iterationsConvergence>200</iterationsConvergence>
+		
+		<verbose>True</verbose>
+		
+		<ringSize>2</ringSize>
+
+		<selectionClass>Tournament</selectionClass>
+
+		<elitism>False</elitism>
+
+		<crossoverProb>0.85</crossoverProb>
+
+		<crossoverClass>Arithmetic</crossoverClass>
+		
+		<mutationProb>0.3</mutationProb>
+		
+		<mutationClass>Gaussian</mutationClass>
+
+		<mutationGaussianStd>0.1</mutationGaussianStd>
+	</general>
+
+</config>
