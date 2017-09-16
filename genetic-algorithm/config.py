@@ -38,7 +38,7 @@ class Config(object):
 		""" This method reads all configs from the config.xml file.
 		"""
 		try:
-			tree = ET.parse('config/' + config_file)
+			tree = ET.parse('../config/' + config_file)
 		except Exception:
 			raise Exception("read_config: Invalid or Nonexistent config.xml file.")
 		

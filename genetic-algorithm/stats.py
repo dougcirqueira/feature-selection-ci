@@ -111,21 +111,21 @@ class OverallStats(object):
 			"convergenceIteration",
 			"iterations"])
 
-		with open("results/" + self.filename, "a") as output:
+		with open("../results/" + self.filename, "a") as output:
 			writer = csv.writer(output)
 			writer.writerows(self.data_to_output)
 
 
 	def exportResults(self, filename):
-		with open("results/" + filename, "w") as output:
+		with open("../results/" + filename, "w") as output:
 		    writer = csv.writer(output)
 		    writer.writerows(self.data_to_output)
 
-		with open("results/" + filename + "_bestsRW.csv", "w") as output:
+		with open("../results/" + filename + "_bestsRW.csv", "w") as output:
 		    writer = csv.writer(output)
 		    writer.writerows(self.data_to_output_best_chm_rw)
 
-		with open("results/" + self.filename + "_bestsGA.csv", "w") as output:
+		with open("../results/" + self.filename + "_bestsGA.csv", "w") as output:
 		    writer = csv.writer(output)
 		    writer.writerows(self.data_to_output_best_chm_ga)
 
@@ -287,7 +287,7 @@ class OverallStats(object):
 			self.data_to_output.append([configName, "ga", config.populationNumber, config.individualSize, precision_GA,
 			 accuracy_GA, meanGenerationConv, iterations_GA+1])
 
-			with open("results/" + self.filename, "a") as output:
+			with open("../results/" + self.filename, "a") as output:
 				writer = csv.writer(output)
 				writer.writerows(self.data_to_output)
 
@@ -315,7 +315,7 @@ class OverallStats(object):
 					chromossome
 				])
 
-			with open("results/%s_"%configName + "bestsGA.csv", "w") as output:
+			with open("../results/%s_"%configName + "bestsGA.csv", "w") as output:
 				writer = csv.writer(output)
 				writer.writerows(self.data_to_output_best_chm_ga)
 
@@ -348,7 +348,7 @@ class OverallStats(object):
 					chromossome
 				])
 
-			with open("results/%s_"%configName + "allPopulationGA.csv", "w") as output:
+			with open("../results/%s_"%configName + "allPopulationGA.csv", "w") as output:
 				writer = csv.writer(output)
 				writer.writerows(self.data_to_output_allPop)
 
@@ -455,7 +455,7 @@ class OverallStats(object):
 			plt.xticks(index + bar_width / 2, indexTruncated)
 			plt.legend()
 			plt.tight_layout()
-			plt.savefig('charts/%s_barCs_Ds.png' % (configName))
+			plt.savefig('../results/charts/%s_barCs_Ds.png' % (configName))
 			plt.gcf().clear()
 
 		# Plot Bars for Cooperations and Delations NON STD
@@ -503,7 +503,7 @@ class OverallStats(object):
 			plt.xticks(index + bar_width / 2, indexTruncated)
 			plt.legend()
 			plt.tight_layout()
-			plt.savefig('charts/%s_barPercentCs_Ds.png' % (configName))
+			plt.savefig('../results/charts/%s_barPercentCs_Ds.png' % (configName))
 			plt.gcf().clear()
 
 		# Plot Avg for Cooperations and Delations NON STD
@@ -532,7 +532,7 @@ class OverallStats(object):
 			fit_graph.ylabel('Mean')
 			#fit_graph.xticks(np.arange(min(x_axis), max(x_axis)+1, 1))
 			#fit_graph.show()
-			fit_graph.savefig('charts/%s_lineCs_Ds.png' % (configName))
+			fit_graph.savefig('../results/charts/%s_lineCs_Ds.png' % (configName))
 			fit_graph.gcf().clear()
 
 
@@ -562,7 +562,7 @@ class OverallStats(object):
 			fit_graph.ylabel('Mean')
 			#fit_graph.xticks(np.arange(min(x_axis), max(x_axis)+1, 1))
 			#fit_graph.show()
-			fit_graph.savefig('charts/%s_linePercentCs_Ds.png' % (configName))
+			fit_graph.savefig('../results/charts/%s_linePercentCs_Ds.png' % (configName))
 			fit_graph.gcf().clear()
 
 		# NEW STD Plot Avg Mean and Std for AG vs RW with STD
@@ -603,7 +603,7 @@ class OverallStats(object):
 			fit_graph.ylabel('Fitness')
 			#fit_graph.xticks(np.arange(min(x_axis), max(x_axis)+1, 1))
 			#fit_graph.show()
-			fit_graph.savefig('charts/%s_newMeanFitSTD.png' % (configName))
+			fit_graph.savefig('../results/charts/%s_newMeanFitSTD.png' % (configName))
 			fit_graph.gcf().clear()
 
 
@@ -635,7 +635,7 @@ class OverallStats(object):
 			fit_graph.ylabel('Fitness')
 			#fit_graph.xticks(np.arange(min(x_axis), max(x_axis)+1, 1))
 			#fit_graph.show()
-			fit_graph.savefig('charts/%s_meanFit.png' % (configName))
+			fit_graph.savefig('../results/charts/%s_meanFit.png' % (configName))
 			fit_graph.gcf().clear()
 
 		# Plot Avg Mean and Std for AG vs RW NON STD
@@ -666,7 +666,7 @@ class OverallStats(object):
 			fit_graph.ylabel('Fitness')
 			#fit_graph.xticks(np.arange(min(x_axis), max(x_axis)+1, 1))
 			#fit_graph.show()
-			fit_graph.savefig('charts/%s_meanFitNOSTD.png' % (configName))
+			fit_graph.savefig('../results/charts/%s_meanFitNOSTD.png' % (configName))
 			fit_graph.gcf().clear()
 
 		# Plot Best, Avg and Worst Mean
@@ -698,7 +698,7 @@ class OverallStats(object):
 			fit_graph.ylabel('Fitness')
 			#fit_graph.xticks(np.arange(min(x_axis), max(x_axis)+1, 1))
 			#fit_graph.show()
-			fit_graph.savefig('charts/%s_BestAvgWorst.png' % (configName))
+			fit_graph.savefig('../results/charts/%s_BestAvgWorst.png' % (configName))
 			fit_graph.gcf().clear()
 
 
@@ -725,7 +725,7 @@ class OverallStats(object):
 			fit_graph.xlabel('Generations')
 			fit_graph.ylabel('Fitness')
 			#fit_graph.show()
-			fit_graph.savefig('charts/ga_NOSTD_best_fitness_pop%s_word%s.png' % (config.populationNumber, config.individualSize))
+			fit_graph.savefig('../results/charts/ga_NOSTD_best_fitness_pop%s_word%s.png' % (config.populationNumber, config.individualSize))
 			fit_graph.gcf().clear()
 
 		# Plot Only RW 
@@ -746,7 +746,7 @@ class OverallStats(object):
 			fit_graph.xlabel('Generations')
 			fit_graph.ylabel('Fitness')
 			#fit_graph.show()
-			fit_graph.savefig('charts/onlyRW_best_fitness_pop%s_word%s.png' % (config.populationNumber, config.individualSize))
+			fit_graph.savefig('../results/charts/onlyRW_best_fitness_pop%s_word%s.png' % (config.populationNumber, config.individualSize))
 			fit_graph.gcf().clear()
 
 		# Plot Only GA
@@ -767,7 +767,7 @@ class OverallStats(object):
 			fit_graph.xlabel('Generations')
 			fit_graph.ylabel('Fitness')
 			#fit_graph.show()
-			fit_graph.savefig('charts/onlyGA_best_fitness_pop%s_word%s.png' % (config.populationNumber, config.individualSize))
+			fit_graph.savefig('../results/charts/onlyGA_best_fitness_pop%s_word%s.png' % (config.populationNumber, config.individualSize))
 			fit_graph.gcf().clear()
 
 

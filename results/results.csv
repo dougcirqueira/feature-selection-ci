@@ -1,0 +1,6 @@
+config,algorithm,populationSize,individualSize,precision,accuracy,convergenceIteration,iterations
+config,algorithm,populationSize,individualSize,precision,accuracy,convergenceIteration,iterations
+config,algorithm,populationSize,individualSize,precision,accuracy,convergenceIteration,iterations
+1config,ga,4,966,0,0.74172794117647067,3.0,3
+config,algorithm,populationSize,individualSize,precision,accuracy,convergenceIteration,iterations
+1config,ga,4,966,0,0.75496323529411757,3.0,3

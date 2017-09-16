@@ -57,8 +57,8 @@ class NeuralNetworkEvaluator(object):
 	def __init__(self):
 		self.stemmer = PorterStemmer()
 		self.wordnet_lemmatizer = WordNetLemmatizer()
-		self.stopwords_PT = [word.strip() for word in open("neuralnetworkdata/stopwords_PT_R.txt").readlines()]
-		self.input_final = "neuralnetworkdata/data.csv"
+		self.stopwords_PT = [word.strip() for word in open("../data/stopwords_PT_R.txt").readlines()]
+		self.input_final = "../data/data.csv"
 		self.data = pd.read_csv(self.input_final)
 		self.data = self.preprocessing_PT(self.data)
 		self.labels_order_2 = [1,-1]
