@@ -1,15 +1,20 @@
 
 import math
+import random
+
 from solutions import BinarySolution
 
 class SimulatedAnnealing(object):
 	"""docstring for SimulatedAnnealing"""
 	def __init__(self):
 		self.currentSolution = BinarySolution(966, None)
-		self.T = 1000
+		self.T = 100
 		self.finalT = 0
+		self.TR = 5
 		self.coolingFactor = 0.3
 		self.h = 100
+		
+
 
 		self.lenSolution = len(self.currentSolution.getChm())
 
@@ -27,21 +32,30 @@ class SimulatedAnnealing(object):
 			else:
 				neighbour[pos] = 1
 
-		return neighbour
+		return  BinarySolution(self.lenSolution, neighbour) 
 
-	def selectNewSolution(self, solution):
-		scoreCurrent = evaluateSolution(self.currentSolution)
+	def selectNewSolution(self, solution, neighbour):
 
-		
+		scoreCurrent = evaluateSolution(solution.getChm())
+		scoreNeighbour = evaluateSolution(neighbour.getChm())
 
-		
+		if scoreCurrent < scoreNeighbour:
+			return neighbour
 
-	def evaluateSolution(self):
+		elif random.uniform(0,1) < self.acceptanceFunction(scoreNeighbour, scoreCurrent):
+			return neighbour
+
+		else:
+			return solution
+
+
+	def evaluateSolution(self, solution):
 		pass
 
-	def cool(self):
+	def cool(self, T, coolingFactor):
+		return T * coolingFactor
+
+	def run(self):
 		pass
-
-
 
 		
