@@ -65,6 +65,9 @@ class NeuralNetworkEvaluator(object):
 		self.nfolds = 10
 		self.skf = StratifiedKFold(n_splits=self.nfolds)
 
+		self.data = pd.DataFrame(self.data)
+		self.X = self.vectorizeTFIDF(self.data['Message'], ngram_range=(1,1))
+
 	def preprocessing_PT(self, data):
 		# REMOVE URLS
 		data['Message'] = data['Message'].replace(to_replace='http\\S+\\s*', value='',regex=True)
@@ -154,6 +157,8 @@ class NeuralNetworkEvaluator(object):
 			vectorizer = TfidfVectorizer()
 			X = vectorizer.fit_transform(data)
 
+			self.featureNames = np.array(vectorizer.get_feature_names())
+
 			#X[:, 0] = 0
 
 			#print X[:, 0]
@@ -162,11 +167,29 @@ class NeuralNetworkEvaluator(object):
 
 	def decode(self, chromossome, X):
 
+		newX = X
+
+		indexes = np.array([i for i,gene in enumerate(chromossome) if gene == 1])
+
+		newX = newX[:,indexes]
+
+		"""
 		indexes = [i for i,gene in enumerate(chromossome) if gene == 0]
 		for index in indexes:
 			X[:, index] = 0
+		"""
 
-		return X
+		return newX
+
+	def getFeatSelectedRemoved(self, chromossome):
+
+		indexesSelected = np.array([i for i,gene in enumerate(chromossome) if gene == 1])
+		indexesRemoved = np.array([i for i,gene in enumerate(chromossome) if gene == 0])
+
+		selected = list(self.featureNames[indexesSelected])
+		removed = list(self.featureNames[indexesRemoved])
+
+		return (selected, removed)
 
 
 	def evaluateWithStats(self, chromossome):
@@ -178,13 +201,8 @@ class NeuralNetworkEvaluator(object):
 		f1_scores_pos = []
 		f1_scores_neg = []
 		macro_f1_vec = []
-		
 
-		data = pd.DataFrame(self.data)
-
-		X = self.vectorizeTFIDF(self.data['Message'], ngram_range=(1,1))
-
-		X = self.decode(chromossome, X)
+		X = self.decode(chromossome, self.X)
 		y = self.data['Truth']
 
 		#clf = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(10, 10, 10, 10, 10, 10), random_state=1)

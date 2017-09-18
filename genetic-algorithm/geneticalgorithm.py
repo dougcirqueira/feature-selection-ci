@@ -45,6 +45,8 @@ class GeneticAlgorithm(object):
 		self.solutionFoundGeneration = None
 		self.stopCriterea = config.stopCriterea
 		self.iterationsConvergence = config.iterationsConvergence
+		self.totalSelected = []
+		self.totalRemoved = []
 
 
 	def startPopulation(self):
@@ -207,7 +209,8 @@ class GeneticAlgorithm(object):
 		self.data_to_output_best_chm_ga = []
 		self.data_to_output_best_chm_ga.append(["generation", "fitness", "features",
 			"precPosFinal","precNegFinal", "precAvg",  "recallPosFinal", 
-			"recallNegFinal", "recallAvg", "f1PosFinal", "f1NegFinal", "macrof1Final", "chromossome"])
+			"recallNegFinal", "recallAvg", "f1PosFinal", "f1NegFinal", "macrof1Final", "featuresSelected",
+			"featuresRemoved", "chromossome"])
 
 		
 
@@ -240,9 +243,16 @@ class GeneticAlgorithm(object):
 			self.stats.computeStatistics(self.population, self.getBestIndividual(self.getPopulation()).getFitness(), self.getWorstIndividual(self.getPopulation()).getFitness(), generation, self.solutionFound, self.solutionFoundGeneration)
 
 
-			if self.getBestIndividual(self.getPopulation()).getFitness() > 0.8073:
+			#if self.getBestIndividual(self.getPopulation()).getFitness() > 0.8103:
+			if True:
 				i = self.getBestIndividual(self.getPopulation())
 				chromossome = i.getChm()
+
+				selected, removed = self.evaluator.getFeatSelectedRemoved(chromossome)
+
+				self.totalSelected += selected
+				self.totalRemoved += removed
+
 				features = Counter(chromossome)
 				self.data_to_output_best_chm_ga.append([
 					generation,
@@ -257,10 +267,12 @@ class GeneticAlgorithm(object):
 					i.f1_scores_posFinal,
 					i.f1_scores_negFinal,
 					i.macro_f1Final,
+					selected,
+					removed,
 					chromossome
 				])
 
-				with open("results/%s_"%"1config" + "_neuralSurpassesBestsGA.csv", "a") as output:
+				with open("../results/%s_"%"1config" + "_neuralSurpassesBestsGA.csv", "a") as output:
 					writer = csv.writer(output)
 					writer.writerows(self.data_to_output_best_chm_ga)
 
@@ -270,12 +282,16 @@ class GeneticAlgorithm(object):
 				self.data_to_output_allPop = []
 				self.data_to_output_allPop.append(["generation", "fitness", "features",
 					"precPosFinal","precNegFinal", "precAvg",  "recallPosFinal", 
-					"recallNegFinal", "recallAvg", "f1PosFinal", "f1NegFinal", "macrof1Final", "chromossome"])
+					"recallNegFinal", "recallAvg", "f1PosFinal", "f1NegFinal", "macrof1Final", "featuresSelected",
+					"featuresRemoved", "chromossome"])
 
 				populationToExport = self.population
 
 				for i in populationToExport:
 					chromossome = i.getChm()
+
+					selected, removed = self.evaluator.getFeatSelectedRemoved(chromossome)
+
 					features = Counter(chromossome)
 					self.data_to_output_allPop.append([
 						generation,
@@ -290,10 +306,12 @@ class GeneticAlgorithm(object):
 						i.f1_scores_posFinal,
 						i.f1_scores_negFinal,
 						i.macro_f1Final,
+						selected,
+						removed,
 						chromossome
 					])
 
-				with open("results/%s_"%"1config" + "neuralSurpassesAllPopulationGA.csv", "w") as output:
+				with open("../results/%s_"%"1config" + "neuralSurpassesAllPopulationGA.csv", "w") as output:
 					writer = csv.writer(output)
 					writer.writerows(self.data_to_output_allPop)
 
@@ -332,6 +350,27 @@ class GeneticAlgorithm(object):
 
 			if generation == self.iterations-1:
 				self.population = self.calcPopulationFitness(self.getPopulation())
+
+		# Save Most Common From each execution data
+		self.data_to_output_most_common_selected = []
+		self.data_to_output_most_common_selected.append(["mostCommon"])
+
+		self.data_to_output_most_common_removed = []
+		self.data_to_output_most_common_removed.append(["mostCommon"])
+
+		countSelected = Counter(self.totalSelected)
+		countRemoved = Counter(self.totalRemoved)
+
+		self.data_to_output_most_common_selected.append(countSelected.most_common())
+		self.data_to_output_most_common_removed.append(countRemoved.most_common())
+
+		with open("../results/%s_"%"1config" + "_selectedMostCommon.csv", "a") as output:
+			writer = csv.writer(output)
+			writer.writerows(self.data_to_output_most_common_selected)
+
+		with open("../results_sa/%s_"%"1config" + "_removedMostCommon.csv", "a") as output:
+			writer = csv.writer(output)
+			writer.writerows(self.data_to_output_most_common_removed)
 
 
 	def run(self):

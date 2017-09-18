@@ -26,9 +26,9 @@
 	</solution>
 
 	<general>
-		<executions>1</executions>
+		<executions>5</executions>
 
-		<populationNumber>4</populationNumber>
+		<populationNumber>30</populationNumber>
 
 		<individual>NeuralNetIndividual</individual>
 		
@@ -40,9 +40,9 @@
 		
 		<stopCriterea>convergence</stopCriterea>
 		
-		<iterations>3</iterations>
+		<iterations>300</iterations>
 
-		<iterationsConvergence>15</iterationsConvergence>
+		<iterationsConvergence>50</iterationsConvergence>
 		
 		<verbose>True</verbose>
 		
