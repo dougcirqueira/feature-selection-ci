@@ -1,4 +1,5 @@
 
+import random
 
 class BinarySolution(object):
 	"""docstring for BinarySolution"""

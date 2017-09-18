@@ -1,25 +1,26 @@
 
 import math
 import random
+import numpy as np
 
 from solutions import BinarySolution
+from evaluators import SVMEvaluator
 
 class SimulatedAnnealing(object):
 	"""docstring for SimulatedAnnealing"""
 	def __init__(self):
 		self.currentSolution = BinarySolution(966, None)
-		self.T = 100
-		self.finalT = 0
-		self.TR = 5
+		self.T = 10
+		self.finalT = 0.1
+		self.TR = 2
 		self.coolingFactor = 0.3
-		self.h = 100
-		
-
-
+		self.h = 2
 		self.lenSolution = len(self.currentSolution.getChm())
+		self.evaluator = SVMEvaluator()
 
 	def acceptanceFunction(self, scoreNeighbour, scoreCurrent):
-		p = pow(math.e, (-scoreNeighbour - scoreCurrent) / self.T)
+		exponent = (scoreNeighbour - scoreCurrent) / self.T
+		p = pow(math.e, exponent)
 		return p
 
 	def getNeighbour(self, solution):
@@ -32,12 +33,14 @@ class SimulatedAnnealing(object):
 			else:
 				neighbour[pos] = 1
 
-		return  BinarySolution(self.lenSolution, neighbour) 
+		return  BinarySolution(self.lenSolution, neighbour)
 
 	def selectNewSolution(self, solution, neighbour):
 
-		scoreCurrent = evaluateSolution(solution.getChm())
-		scoreNeighbour = evaluateSolution(neighbour.getChm())
+		solution.setFitness(self.evaluateSolution(solution.getChm()))
+		scoreCurrent = solution.getFitness()
+		neighbour.setFitness(self.evaluateSolution(neighbour.getChm()))
+		scoreNeighbour = neighbour.getFitness()
 
 		if scoreCurrent < scoreNeighbour:
 			return neighbour
@@ -50,12 +53,41 @@ class SimulatedAnnealing(object):
 
 
 	def evaluateSolution(self, solution):
-		pass
+		score = self.evaluator.evaluateWithStats(solution)
+		return score
 
 	def cool(self, T, coolingFactor):
 		return T * coolingFactor
 
 	def run(self):
-		pass
+		solution = self.currentSolution
 
-		
+		# While Temperature is high enough
+		while self.T > self.finalT:
+			# Loop for number of selections with same temperature
+			for q in xrange(self.TR):
+				# Look for new neighbour solution
+				neighbour = self.getNeighbour(solution.getChm())
+
+				# Select new solution based on current one and neighbour
+				solution = self.selectNewSolution(solution, neighbour)
+
+			# Cool system
+			self.T = self.cool(self.T, self.coolingFactor)
+
+			print "---------------------------------------------------------------------------"
+			print "Temperature: %f" % self.T
+			print "Current Score: %f" % solution.getFitness()
+			print "---------------------------------------------------------------------------"
+
+		self.currentSolution = solution
+
+
+
+def main():
+	sa = SimulatedAnnealing()
+	sa.run()
+
+
+if __name__ == '__main__':
+	main()
